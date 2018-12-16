@@ -1,0 +1,20 @@
+--CharacterData--
+BigDickDave
+32
+Elementalist
+
+--LabData--
+true
+false
+false
+false
+false true true true true true 
+false false true 
+false true true 
+false false false false false true 
+
+--BanditData--
+2
+
+--QuestData--
+true true true true true true true true false false false false false false false false false false false false false 
