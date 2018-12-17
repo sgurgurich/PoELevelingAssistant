@@ -1,3 +1,4 @@
+package data.managers;
 import javax.swing.DefaultListModel;
 
 public class QuestDataManager {

@@ -1,3 +1,4 @@
+package windows;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,8 +18,20 @@ import javax.swing.DefaultListModel;
 import javax.swing.JSlider;
 import javax.swing.JList;
 import javax.swing.border.LineBorder;
+
+import data.managers.BanditDataManager;
+import data.managers.CharacterDataManager;
+import data.managers.LabDataManager;
+import data.managers.QuestDataManager;
+import file.io.FileIOManager;
+import file.io.GenericDataPacker;
+
 import java.awt.Color;
 import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JProgressBar;
 
 public class MainWindow {
 
@@ -33,6 +46,10 @@ public class MainWindow {
 	private FileIOManager file_man;
 	private DefaultListModel<String> incomplete_q_model;
 	private DefaultListModel<String> complete_q_model;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -72,153 +89,164 @@ public class MainWindow {
 		file_man    = new FileIOManager("TestInputFile.txt", data_packer);
 		
 		frmPoeLevelingAssistant = new JFrame();
+		frmPoeLevelingAssistant.setResizable(false);
 		frmPoeLevelingAssistant.setTitle("PoE Leveling Assistant");
-		frmPoeLevelingAssistant.setBounds(100, 100, 899, 603);
+		frmPoeLevelingAssistant.setBounds(100, 100, 896, 663);
 		frmPoeLevelingAssistant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPoeLevelingAssistant.getContentPane().setLayout(null);
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(12, 24, 850, 593);
+		frmPoeLevelingAssistant.getContentPane().add(tabbedPane);
+		
+		JPanel leveling_panel = new JPanel();
+		tabbedPane.addTab("Leveling", null, leveling_panel, null);
+		leveling_panel.setLayout(null);
+		
 		JLabel lblTrialsOfAscendancy = new JLabel("Trials of Ascendancy");
-		lblTrialsOfAscendancy.setBounds(335, 91, 185, 25);
+		lblTrialsOfAscendancy.setBounds(313, 67, 185, 25);
+		leveling_panel.add(lblTrialsOfAscendancy);
 		lblTrialsOfAscendancy.setFont(new Font("Tahoma", Font.BOLD, 16));
-		frmPoeLevelingAssistant.getContentPane().add(lblTrialsOfAscendancy);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Lower Prison");
-		rdbtnNewRadioButton.setBounds(22, 135, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton);
+		rdbtnNewRadioButton.setBounds(0, 111, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Crypt Level 1");
-		rdbtnNewRadioButton_1.setBounds(22, 165, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_1);
+		rdbtnNewRadioButton_1.setBounds(0, 141, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_1);
 		
 		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("CoS Level 2");
-		rdbtnNewRadioButton_2.setBounds(22, 195, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_2);
+		rdbtnNewRadioButton_2.setBounds(0, 171, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_2);
 		
 		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Crematorium");
-		rdbtnNewRadioButton_3.setBounds(153, 135, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_3);
+		rdbtnNewRadioButton_3.setBounds(131, 111, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_3);
 		
 		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("Catacombs");
-		rdbtnNewRadioButton_4.setBounds(153, 165, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_4);
+		rdbtnNewRadioButton_4.setBounds(131, 141, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_4);
 		
 		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("Imperial Gardens");
-		rdbtnNewRadioButton_5.setBounds(153, 195, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_5);
+		rdbtnNewRadioButton_5.setBounds(131, 171, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_5);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(288, 122, 8, 108);
+		separator.setBounds(266, 98, 8, 108);
+		leveling_panel.add(separator);
 		separator.setOrientation(SwingConstants.VERTICAL);
-		frmPoeLevelingAssistant.getContentPane().add(separator);
 		
 		JRadioButton rdbtnNewRadioButton_6 = new JRadioButton("The Prison");
-		rdbtnNewRadioButton_6.setBounds(295, 135, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_6);
+		rdbtnNewRadioButton_6.setBounds(273, 111, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_6);
 		
 		JRadioButton rdbtnNewRadioButton_7 = new JRadioButton("The Crypt");
-		rdbtnNewRadioButton_7.setBounds(295, 165, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_7);
+		rdbtnNewRadioButton_7.setBounds(273, 141, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_7);
 		
 		JRadioButton rdbtnNewRadioButton_8 = new JRadioButton("CoS Level 2");
-		rdbtnNewRadioButton_8.setBounds(295, 195, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_8);
+		rdbtnNewRadioButton_8.setBounds(273, 171, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_8);
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(430, 122, 8, 108);
+		separator_1.setBounds(408, 98, 8, 108);
+		leveling_panel.add(separator_1);
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		frmPoeLevelingAssistant.getContentPane().add(separator_1);
 		
 		JRadioButton rdbtnNewRadioButton_9 = new JRadioButton("The Bath House");
-		rdbtnNewRadioButton_9.setBounds(440, 135, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_9);
+		rdbtnNewRadioButton_9.setBounds(418, 111, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_9);
 		
 		JRadioButton rdbtnNewRadioButton_10 = new JRadioButton("The Tunnel");
-		rdbtnNewRadioButton_10.setBounds(440, 165, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_10);
+		rdbtnNewRadioButton_10.setBounds(418, 141, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_10);
 		
 		JRadioButton rdbtnNewRadioButton_11 = new JRadioButton("The Ossuary");
-		rdbtnNewRadioButton_11.setBounds(440, 195, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_11);
+		rdbtnNewRadioButton_11.setBounds(418, 171, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_11);
 		
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(570, 122, 8, 108);
+		separator_2.setBounds(548, 98, 8, 108);
+		leveling_panel.add(separator_2);
 		separator_2.setOrientation(SwingConstants.VERTICAL);
-		frmPoeLevelingAssistant.getContentPane().add(separator_2);
 		
 		JRadioButton rdbtnNewRadioButton_12 = new JRadioButton("Piercing Truth");
-		rdbtnNewRadioButton_12.setBounds(586, 135, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_12);
+		rdbtnNewRadioButton_12.setBounds(564, 111, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_12);
 		
 		JRadioButton rdbtnNewRadioButton_13 = new JRadioButton("Swirling Fear");
-		rdbtnNewRadioButton_13.setBounds(586, 165, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_13);
+		rdbtnNewRadioButton_13.setBounds(564, 141, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_13);
 		
 		JRadioButton rdbtnNewRadioButton_14 = new JRadioButton("Crippling Grief");
-		rdbtnNewRadioButton_14.setBounds(586, 195, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_14);
+		rdbtnNewRadioButton_14.setBounds(564, 171, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_14);
 		
 		JRadioButton rdbtnNewRadioButton_15 = new JRadioButton("Burning Rage");
-		rdbtnNewRadioButton_15.setBounds(735, 135, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_15);
+		rdbtnNewRadioButton_15.setBounds(713, 111, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_15);
 		
 		JRadioButton rdbtnNewRadioButton_16 = new JRadioButton("Lingering Pain");
-		rdbtnNewRadioButton_16.setBounds(735, 165, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_16);
+		rdbtnNewRadioButton_16.setBounds(713, 141, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_16);
 		
 		JRadioButton rdbtnNewRadioButton_17 = new JRadioButton("Stinging Doubt");
-		rdbtnNewRadioButton_17.setBounds(735, 195, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNewRadioButton_17);
+		rdbtnNewRadioButton_17.setBounds(713, 171, 127, 25);
+		leveling_panel.add(rdbtnNewRadioButton_17);
 		
 		JRadioButton rdbtnNormalLab = new JRadioButton("Normal Lab");
-		rdbtnNormalLab.setBounds(22, 92, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnNormalLab);
+		rdbtnNormalLab.setBounds(0, 68, 127, 25);
+		leveling_panel.add(rdbtnNormalLab);
 		
 		JRadioButton rdbtnCruelLab = new JRadioButton("Cruel Lab");
-		rdbtnCruelLab.setBounds(209, 92, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnCruelLab);
+		rdbtnCruelLab.setBounds(187, 68, 127, 25);
+		leveling_panel.add(rdbtnCruelLab);
 		
 		JRadioButton rdbtnMercLab = new JRadioButton("Merc Lab");
-		rdbtnMercLab.setBounds(555, 92, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnMercLab);
+		rdbtnMercLab.setBounds(533, 68, 127, 25);
+		leveling_panel.add(rdbtnMercLab);
 		
 		JRadioButton rdbtnUberLab = new JRadioButton("Uber Lab");
-		rdbtnUberLab.setBounds(735, 92, 127, 25);
-		frmPoeLevelingAssistant.getContentPane().add(rdbtnUberLab);
+		rdbtnUberLab.setBounds(713, 68, 127, 25);
+		leveling_panel.add(rdbtnUberLab);
 		
 		JSeparator separator_3 = new JSeparator();
-		separator_3.setBounds(22, 122, 833, 2);
-		frmPoeLevelingAssistant.getContentPane().add(separator_3);
+		separator_3.setBounds(0, 98, 833, 2);
+		leveling_panel.add(separator_3);
 		
 		JSeparator separator_4 = new JSeparator();
-		separator_4.setBounds(22, 229, 833, 2);
-		frmPoeLevelingAssistant.getContentPane().add(separator_4);
+		separator_4.setBounds(0, 205, 833, 2);
+		leveling_panel.add(separator_4);
 		
 		textField = new JTextField();
-		textField.setBounds(22, 38, 216, 34);
+		textField.setBounds(0, 14, 216, 34);
+		leveling_panel.add(textField);
 		textField.setFont(new Font("Tahoma", Font.BOLD, 18));
-		frmPoeLevelingAssistant.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblCharacterName = new JLabel("Character Name:");
-		lblCharacterName.setBounds(22, 24, 111, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblCharacterName);
+		lblCharacterName.setBounds(0, 0, 111, 16);
+		leveling_panel.add(lblCharacterName);
 		
 		textField_1 = new JTextField("1");
+		textField_1.setBounds(228, 14, 40, 34);
+		leveling_panel.add(textField_1);
 		textField_1.setEditable(false);
-		textField_1.setBounds(250, 38, 40, 34);
 		textField_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		frmPoeLevelingAssistant.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel lblLevel = new JLabel("Level:");
-		lblLevel.setBounds(250, 24, 56, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblLevel);
+		lblLevel.setBounds(228, 0, 56, 16);
+		leveling_panel.add(lblLevel);
 		
 		JLabel lblAscendancy = new JLabel("Ascendancy:");
-		lblAscendancy.setBounds(586, 24, 127, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblAscendancy);
+		lblAscendancy.setBounds(564, 0, 127, 16);
+		leveling_panel.add(lblAscendancy);
 		
 		JButton btnNewButton = new JButton("-");
+		btnNewButton.setBounds(274, 14, 40, 34);
+		leveling_panel.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				char_data.decreaseLevel();
@@ -226,89 +254,174 @@ public class MainWindow {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton.setBounds(296, 38, 40, 34);
-		frmPoeLevelingAssistant.getContentPane().add(btnNewButton);
 		
 		JButton button = new JButton("+");
+		button.setBounds(313, 14, 40, 34);
+		leveling_panel.add(button);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button.setBounds(335, 38, 40, 34);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				char_data.increaseLevel();
-				textField_1.setText(Integer.toString(char_data.getLevel()));
-			}
-		});
-		frmPoeLevelingAssistant.getContentPane().add(button);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(22, 267, 111, 22);
+		comboBox.setBounds(0, 243, 111, 22);
+		leveling_panel.add(comboBox);
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Kill All", "Help Alira", "Help Oak", "Help Kraityn"}));
-		frmPoeLevelingAssistant.getContentPane().add(comboBox);
 		
 		JLabel lblBandits = new JLabel("Bandits:");
+		lblBandits.setBounds(0, 220, 81, 16);
+		leveling_panel.add(lblBandits);
 		lblBandits.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblBandits.setBounds(22, 244, 81, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblBandits);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(491, 268, 222, 278);
-		frmPoeLevelingAssistant.getContentPane().add(scrollPane_1);
+		scrollPane_1.setBounds(469, 244, 222, 278);
+		leveling_panel.add(scrollPane_1);
 		
 		JList list = new JList(complete_q_model);
 		scrollPane_1.setViewportView(list);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(169, 269, 222, 278);
-		frmPoeLevelingAssistant.getContentPane().add(scrollPane);
+		scrollPane.setBounds(147, 245, 222, 278);
+		leveling_panel.add(scrollPane);
 		
 		JList list_1 = new JList(incomplete_q_model);
 		scrollPane.setViewportView(list_1);
 		
 		JLabel lblPassiveQuests = new JLabel("Passive Quests");
-		lblPassiveQuests.setBounds(379, 243, 133, 16);
+		lblPassiveQuests.setBounds(357, 219, 133, 16);
+		leveling_panel.add(lblPassiveQuests);
 		lblPassiveQuests.setFont(new Font("Tahoma", Font.BOLD, 16));
-		frmPoeLevelingAssistant.getContentPane().add(lblPassiveQuests);
 		
 		JLabel lblToDo = new JLabel("To do:");
-		lblToDo.setBounds(255, 252, 56, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblToDo);
+		lblToDo.setBounds(233, 228, 56, 16);
+		leveling_panel.add(lblToDo);
 		
 		JLabel lblCompleted = new JLabel("Completed:");
-		lblCompleted.setBounds(555, 252, 81, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblCompleted);
+		lblCompleted.setBounds(533, 228, 81, 16);
+		leveling_panel.add(lblCompleted);
 		
 		JButton btnNewButton_2 = new JButton("<<<");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				quest_data.forgetQuest(list.getSelectedIndex());
-			}
-		});
-		btnNewButton_2.setBounds(404, 405, 72, 49);
-		frmPoeLevelingAssistant.getContentPane().add(btnNewButton_2);
+		btnNewButton_2.setBounds(382, 381, 72, 49);
+		leveling_panel.add(btnNewButton_2);
 		
 		JButton button_1 = new JButton(">>>");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				quest_data.completeQuest(list_1.getSelectedIndex());
-			}
-		});
-		button_1.setBounds(403, 342, 72, 49);
-		frmPoeLevelingAssistant.getContentPane().add(button_1);
+		button_1.setBounds(381, 318, 72, 49);
+		leveling_panel.add(button_1);
 		
 		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(392, 14, 152, 34);
+		leveling_panel.add(comboBox_1);
 		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"<Select>", "Witch", "Marauder", "Templar", "Shadow", "Ranger", "Duelist", "Scion"}));
-		comboBox_1.setBounds(414, 38, 152, 34);
-		frmPoeLevelingAssistant.getContentPane().add(comboBox_1);
 		
 		JLabel lblClass = new JLabel("Class:");
-		lblClass.setBounds(414, 24, 56, 16);
-		frmPoeLevelingAssistant.getContentPane().add(lblClass);
+		lblClass.setBounds(392, 0, 56, 16);
+		leveling_panel.add(lblClass);
 		
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(586, 38, 271, 34);
-		frmPoeLevelingAssistant.getContentPane().add(comboBox_2);
+		comboBox_2.setBounds(564, 14, 271, 34);
+		leveling_panel.add(comboBox_2);
 		
 		JButton btnNewButton_3 = new JButton("Save");
+		btnNewButton_3.setBounds(713, 318, 116, 82);
+		leveling_panel.add(btnNewButton_3);
+		
+		JButton button_2 = new JButton("Load");
+		button_2.setBounds(713, 413, 116, 49);
+		leveling_panel.add(button_2);
+		
+		JButton button_3 = new JButton("Clear");
+		button_3.setBounds(713, 496, 116, 25);
+		leveling_panel.add(button_3);
+		
+		JPanel value_panel = new JPanel();
+		tabbedPane.addTab("Value", null, value_panel, null);
+		value_panel.setLayout(null);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(40, 60, 376, 490);
+		value_panel.add(scrollPane_2);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane_2.setViewportView(textArea);
+		
+		JLabel lblItemData = new JLabel("Item Data:");
+		lblItemData.setBounds(40, 45, 120, 16);
+		value_panel.add(lblItemData);
+		
+		JLabel lblImportedData = new JLabel("Imported Data");
+		lblImportedData.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblImportedData.setBounds(156, 13, 132, 16);
+		value_panel.add(lblImportedData);
+		
+		JLabel lblParsedData = new JLabel("Parsed Data");
+		lblParsedData.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblParsedData.setBounds(573, 13, 145, 16);
+		value_panel.add(lblParsedData);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(487, 63, 321, 22);
+		value_panel.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JLabel lblName = new JLabel("Name:");
+		lblName.setBounds(447, 66, 43, 16);
+		value_panel.add(lblName);
+		
+		JButton btnCheckPoetrade = new JButton("Check Database");
+		btnCheckPoetrade.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnCheckPoetrade.setBounds(447, 168, 361, 34);
+		value_panel.add(btnCheckPoetrade);
+		
+		JLabel lblAuctionData = new JLabel("Auction Data");
+		lblAuctionData.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblAuctionData.setBounds(573, 145, 120, 22);
+		value_panel.add(lblAuctionData);
+		
+		JLabel lblWorthSelling = new JLabel("Worth Selling?");
+		lblWorthSelling.setBounds(447, 98, 151, 16);
+		value_panel.add(lblWorthSelling);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(533, 98, 275, 22);
+		value_panel.add(textField_3);
+		textField_3.setColumns(10);
+		
+		JLabel lblLowestPrice = new JLabel("Lowest Price: ");
+		lblLowestPrice.setBounds(447, 230, 81, 16);
+		value_panel.add(lblLowestPrice);
+		
+		JLabel lblHighestPrice = new JLabel("Highest Price:");
+		lblHighestPrice.setBounds(447, 259, 91, 16);
+		value_panel.add(lblHighestPrice);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(533, 227, 275, 22);
+		value_panel.add(textField_4);
+		textField_4.setColumns(10);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(533, 256, 275, 22);
+		value_panel.add(textField_5);
+		textField_5.setColumns(10);
+		
+		JProgressBar progressBar = new JProgressBar();
+		progressBar.setBounds(452, 528, 356, 22);
+		progressBar.setValue(0);
+		progressBar.setStringPainted(true);
+		value_panel.add(progressBar);
+		
+		
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				char_data.clearAll();
+				lab_data.clearAll();
+				quest_data.clearAll();
+			}
+		});
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// update all data managers
@@ -357,27 +470,22 @@ public class MainWindow {
 				file_man.writeFile();
 			}
 		});
-		btnNewButton_3.setBounds(735, 342, 116, 82);
-		frmPoeLevelingAssistant.getContentPane().add(btnNewButton_3);
-		
-		JButton button_2 = new JButton("Load");
-		button_2.addActionListener(new ActionListener() {
+		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				quest_data.completeQuest(list_1.getSelectedIndex());
 			}
 		});
-		button_2.setBounds(735, 437, 116, 49);
-		frmPoeLevelingAssistant.getContentPane().add(button_2);
-		
-		JButton button_3 = new JButton("Clear");
-		button_3.addActionListener(new ActionListener() {
+		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				char_data.clearAll();
-				lab_data.clearAll();
-				quest_data.clearAll();
+				quest_data.forgetQuest(list.getSelectedIndex());
 			}
 		});
-		button_3.setBounds(735, 520, 116, 25);
-		frmPoeLevelingAssistant.getContentPane().add(button_3);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				char_data.increaseLevel();
+				textField_1.setText(Integer.toString(char_data.getLevel()));
+			}
+		});
 		
 
 	}

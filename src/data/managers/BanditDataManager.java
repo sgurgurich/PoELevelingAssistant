@@ -1,3 +1,4 @@
+package data.managers;
 
 public class BanditDataManager {
 	
