@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import utilities.LogSeverityEnum;
+import utilities.LoggingUtility;
+
 public class FileIOManager {
 
 	private String file_path;
@@ -37,15 +40,32 @@ public class FileIOManager {
 			this.buffered_reader = new BufferedReader(this.reader);
 			
 			while((line = buffered_reader.readLine()) != null) {
-				System.out.println(line);
+				//System.out.println(line);
+				
+				if (line.equals("--CharacterData--")){
+					//next 3 lines are character data
+					
+				} else if (line.equals("--LabData--")){
+					//next 8 lines are lab data
+					
+				} else if (line.equals("--BanditData--")){
+					// next line is bandit data
+					
+				} else if (line.equals("--QuestData--")){
+					// next line is quest data
+					
+				} else{
+					
+				}
+
 			}   
 			
 			buffered_reader.close();  
 			
 		} catch (FileNotFoundException ex){
-			System.out.println("In readFile: " + ex);
+			LoggingUtility.getInstance().logString(LogSeverityEnum.EXCEPTION, ("In readFile: " + ex));
 		} catch(IOException ex){
-			System.out.println("In readFile: " + ex);
+			LoggingUtility.getInstance().logString(LogSeverityEnum.EXCEPTION, ("In readFile: " + ex));
 		}
 	}
 	
@@ -102,9 +122,9 @@ public class FileIOManager {
 			buffered_writer.close();
 	
 		} catch (FileNotFoundException ex){
-			System.out.println("In writeFile: " + ex);
+			LoggingUtility.getInstance().logString(LogSeverityEnum.EXCEPTION, ("In writeFile: " + ex));
 		} catch(IOException ex){
-			System.out.println("In writeFile: " + ex);
+			LoggingUtility.getInstance().logString(LogSeverityEnum.EXCEPTION, ("In writeFile: " + ex));
 		}
 	}
 }
