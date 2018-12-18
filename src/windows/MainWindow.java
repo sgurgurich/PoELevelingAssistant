@@ -96,7 +96,7 @@ public class MainWindow {
 		frmPoeLevelingAssistant.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(12, 24, 850, 593);
+		tabbedPane.setBounds(0, 0, 890, 634);
 		frmPoeLevelingAssistant.getContentPane().add(tabbedPane);
 		
 		JPanel leveling_panel = new JPanel();
@@ -245,7 +245,7 @@ public class MainWindow {
 		leveling_panel.add(lblAscendancy);
 		
 		JButton btnNewButton = new JButton("-");
-		btnNewButton.setBounds(274, 14, 40, 34);
+		btnNewButton.setBounds(274, 14, 45, 34);
 		leveling_panel.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -256,7 +256,7 @@ public class MainWindow {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		JButton button = new JButton("+");
-		button.setBounds(313, 14, 40, 34);
+		button.setBounds(318, 14, 45, 34);
 		leveling_panel.add(button);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		

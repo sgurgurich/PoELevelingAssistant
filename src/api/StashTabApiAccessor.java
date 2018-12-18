@@ -3,6 +3,7 @@ package api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -17,12 +18,22 @@ import org.json.simple.parser.JSONParser;
 
 public class StashTabApiAccessor {
 
+	private String next_id;
+
+
+
 	public StashTabApiAccessor(){
-		
+		next_id = "";
+
 	}
-	
-	public void grabCurrentDatabase() throws ClientProtocolException, IOException{
-		String url = "http://api.pathofexile.com/public-stash-tabs";
+
+	public <T> boolean grabCurrentDatabase() throws ClientProtocolException, IOException{
+		boolean done = false;
+
+		String url = "http://api.pathofexile.com/public-stash-tabs/" + next_id;
+
+
+		JSONParser parser = new JSONParser();
 
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet request = new HttpGet(url);
@@ -31,52 +42,66 @@ public class StashTabApiAccessor {
 		request.addHeader("User-Agent", "USER_AGENT");
 		HttpResponse response = client.execute(request);
 
-		System.out.println("Response Code : " 
-	                + response.getStatusLine().getStatusCode());
+		//System.out.println("Response Code : " 
+		//            + response.getStatusLine().getStatusCode());
 
 		BufferedReader rd = new BufferedReader(
-			new InputStreamReader(response.getEntity().getContent()));
+				new InputStreamReader(response.getEntity().getContent()));
 
-		StringBuffer result = new StringBuffer();
-		String line = "";
-		while ((line = rd.readLine()) != null) {
-			result.append(line);
-			System.out.println(line);
+		try {
+			Object obj = parser.parse(rd.readLine());
+			JSONObject raw_json_obj = (JSONObject)obj;
+
+
+			next_id = (String) raw_json_obj.get("next_change_id");
+			//System.out.println("Next: " + next_id);
+
+
+			// loop array
+			JSONArray msg = (JSONArray) raw_json_obj.get("stashes");
+			Iterator<T> iterator = msg.iterator();
+
+			while (iterator.hasNext()) {
+				// make sure it's public
+				Object pub_obj = parser.parse(iterator.next().toString());
+				JSONObject pub_json_obj = (JSONObject)pub_obj;
+
+				if (pub_json_obj.get("public").toString().equals("true")) {
+					// Now filter by league
+					JSONArray item_msg = (JSONArray) pub_json_obj.get("items");
+					Iterator<T> item_it = item_msg.iterator();
+					
+					while (item_it.hasNext()) {
+						
+						Object item_obj = parser.parse(item_it.next().toString());
+						JSONObject item_json_obj = (JSONObject)item_obj;
+						
+						if (item_json_obj.get("league").toString().equals("Betrayal")) {
+							System.out.println(item_json_obj.get("name"));
+						}
+					}
+				}
+
+			}
+
+
+			if (next_id == null) {
+				done = true;
+				System.out.println("All tabs processed!");
+			}
+
+
 		}
-		
-		// Decode the JSON Objects
-		/**
-		JSONParser parser = new JSONParser();
-	      String s = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
-			
-	      try{
-	         Object obj = parser.parse(s);
-	         JSONArray array = (JSONArray)obj;
-				
-	         System.out.println("The 2nd element of array");
-	         System.out.println(array.get(1));
-	         System.out.println();
 
-	         JSONObject obj2 = (JSONObject)array.get(1);
-	         System.out.println("Field \"1\"");
-	         System.out.println(obj2.get("1"));    
+		catch(ParseException pe){
 
-	         s = "{}";
-	         obj = parser.parse(s);
-	         System.out.println(obj);
+			System.out.println("position: " + pe.getPosition());
+			System.out.println(pe);
+		}		
+		catch(NullPointerException npe){
+			System.out.println(npe);
+		}
+		return done;
 
-	         s = "[5,]";
-	         obj = parser.parse(s);
-	         System.out.println(obj);
-
-	         s = "[5,,2]";
-	         obj = parser.parse(s);
-	         System.out.println(obj);
-	      }catch(ParseException pe){
-			
-	         System.out.println("position: " + pe.getPosition());
-	         System.out.println(pe);
-	      }
-	      **/
 	}
 }
