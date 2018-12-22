@@ -11,7 +11,7 @@ public class DatabaseTests {
 		
 		ItemDBManager item_db = new ItemDBManager();
 		
-		item_db.createTable();
+		//item_db.createTable();
 		item_db.selectAll();
 		
 	}

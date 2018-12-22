@@ -3,7 +3,10 @@ package api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -14,20 +17,26 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
+
+import utilities.LogSeverityEnum;
+import utilities.LoggingUtility;
+
 import org.json.simple.parser.JSONParser;
 
 public class StashTabApiAccessor {
 
 	private String next_id;
+	private ArrayList<String> string_buffer;
 
 
 
 	public StashTabApiAccessor(){
 		next_id = "";
+		string_buffer = new ArrayList<String>();
 
 	}
 
-	public <T> boolean grabCurrentDatabase() throws ClientProtocolException, IOException{
+	public <T> boolean grabCurrentDatabase() throws ClientProtocolException, IOException, InterruptedException{
 		boolean done = false;
 
 		String url = "http://api.pathofexile.com/public-stash-tabs/" + next_id;
@@ -51,46 +60,27 @@ public class StashTabApiAccessor {
 		try {
 			Object obj = parser.parse(rd.readLine());
 			JSONObject raw_json_obj = (JSONObject)obj;
-
-
+			
 			next_id = (String) raw_json_obj.get("next_change_id");
-			//System.out.println("Next: " + next_id);
-
-
-			// loop array
-			JSONArray msg = (JSONArray) raw_json_obj.get("stashes");
-			Iterator<T> iterator = msg.iterator();
-
-			while (iterator.hasNext()) {
-				// make sure it's public
-				Object pub_obj = parser.parse(iterator.next().toString());
-				JSONObject pub_json_obj = (JSONObject)pub_obj;
-
-				if (pub_json_obj.get("public").toString().equals("true")) {
-					// Now filter by league
-					JSONArray item_msg = (JSONArray) pub_json_obj.get("items");
-					Iterator<T> item_it = item_msg.iterator();
-					
-					while (item_it.hasNext()) {
-						
-						Object item_obj = parser.parse(item_it.next().toString());
-						JSONObject item_json_obj = (JSONObject)item_obj;
-						
-						if (item_json_obj.get("league").toString().equals("Betrayal")) {
-							System.out.println(item_json_obj.get("name"));
-						}
-					}
-				}
-
+			
+			JSONArray stashes = (JSONArray) raw_json_obj.get("stashes");
+			
+			// this is a list of all "stashes in the JSON objects
+			ArrayList<JSONObject> stash_list = new ArrayList<JSONObject>();
+			
+			for (int i = 0; i < stashes.size(); i++) {
+				stash_list.add((JSONObject) stashes.get(i));
 			}
-
-
+			
+			//System.out.println(stash_list.get(64).get("lastCharacterName"));
+			//System.out.println(stash_list.get(64).get("items"));
+			//System.out.println(stash_list.get(64).get("accountName"));
+			
+			
 			if (next_id == null) {
 				done = true;
 				System.out.println("All tabs processed!");
 			}
-
-
 		}
 
 		catch(ParseException pe){
@@ -99,7 +89,13 @@ public class StashTabApiAccessor {
 			System.out.println(pe);
 		}		
 		catch(NullPointerException npe){
+			//npe.printStackTrace();
+			for (int i=0; i < string_buffer.size(); i++) {
+				System.out.println(string_buffer.get(i));
+			}
 			System.out.println(npe);
+			
+			assert(false);
 		}
 		return done;
 

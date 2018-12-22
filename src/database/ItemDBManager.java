@@ -37,12 +37,8 @@ public class ItemDBManager {
 		return conn;
 	}
 
-	public void createTable() {
-		String sql = "CREATE TABLE IF NOT EXISTS warehouses (\n"
-				+ "	id integer PRIMARY KEY,\n"
-				+ "	name text NOT NULL,\n"
-				+ "	capacity real\n"
-				+ ");";
+	public void createTable(String inputString) {
+		String sql = inputString;
 
 		try (Connection conn = connect();
 				Statement stmt = conn.createStatement()) {
